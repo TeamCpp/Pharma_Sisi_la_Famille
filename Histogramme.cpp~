@@ -21,14 +21,4 @@ Histogramme::Histogramme(map <string, vector<string> > meds){
     }
   }
 }
-void Histogramme::affichageHist(){
-  map<string, int>::iterator im;
-  for (im = freq.begin(); im != freq.end(); im++){
-    cout << "|";
-    int i (0);
-    while (i <= (*im).second){
-      cout << "O";
-    }
-    cout << (*im).first << endl;
-  }
-}
+//Histogramme::affichageHist();{}

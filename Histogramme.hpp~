@@ -10,8 +10,8 @@ using namespace std;
 
 class Histogramme{
 private:
-  Histogramme(map <string, vector<string> >);
-  map <string, int> freq;
+  Histogramme(map <string, int>)
+  map<string, int> freq;
 public:
   void affichageHist();
 };
