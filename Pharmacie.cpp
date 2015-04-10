@@ -75,23 +75,41 @@ void Pharmacie::parseMed(string s){
 	}
 
 
-	//Affichage du vecteur
+	/*//Affichage du vecteur
 	vector<string>::iterator effetsI;
 	for (effetsI=effects.begin(); effetsI != effects.end();effetsI++)
 	{
 		std::cout<<*effetsI<<std::endl;
-	}
+	}*/
 
 	Medicament med_tmp (name,effects);
-	meds.push_back(med_tmp);
-			// cout<<"r"<<endl;
+	meds[med_tmp.nom()]=med_tmp.effets();
 
 
 }
 }
 
+void Pharmacie::recherche(string choix)
+{
+
+		map<string, vector<string> >::iterator effetsI;
+
+	for (effetsI=meds.begin(); effetsI != meds.end();effetsI++)
+	{
+		vector <string> liste=(*effetsI).second;
+
+		vector <string>::iterator parcoursListe;
+		for (parcoursListe=liste.begin(); parcoursListe != liste.end();parcoursListe++)
+		{
+		std::cout<<(*effetsI).first<<std::endl;
+		break;}
+	}
+}
+
+//void Pharmacie::rechercheAnalogue(Medicament choix)
 int main()
 {
 
-	Pharmacie ("./ListeMedicaments.txt");
+	Pharmacie p ("./ListeMedicaments.txt");
+	p.recherche("diplopie");
 }

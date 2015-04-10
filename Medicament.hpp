@@ -11,5 +11,7 @@ protected:
 
 public:
 	Medicament(string nom, vector <string> effets);
+	string nom() const;
+	vector<string> effets() const;
 };
 #endif 
