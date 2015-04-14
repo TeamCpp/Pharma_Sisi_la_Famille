@@ -15,12 +15,13 @@ using namespace std;
 class Pharmacie{
   friend class Histogramme;
 private:
-    map <string, vector <string> > meds;
+  map <string, vector <string> > meds;
 public:
   Pharmacie(string);
   void parsePharma(ifstream&); // parse le fichier d'entrée
   void parseMed(string); // parse un médicament
-  void recherche(string) ;
+  void recherche();
+  void recherche_avancee(string, vector<string>);
 };
 
 #endif

@@ -5,7 +5,7 @@ int main()
 {
 
 	Pharmacie p ("./ListeMedicaments.txt");
-	p.recherche("diplopie");
+	p.recherche();
 	Histogramme hist;
 	hist.calculHist(p);
 	hist.affichageHist();
