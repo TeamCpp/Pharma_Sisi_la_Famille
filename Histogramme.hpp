@@ -5,14 +5,15 @@
 #include <map>
 #include <vector>
 #include <string>
-
+#include "Pharmacie.hpp"
 using namespace std;
 
 class Histogramme{
 private:
-  Histogramme(map <string, vector<string> >);
-  map <string, int> freq;
+  map<string, int> freq;
 public:
+  Histogramme();
+  void calculHist(Pharmacie&);
   void affichageHist();
 };
 

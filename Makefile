@@ -1,11 +1,9 @@
 PHARM=Pharmacie
 MED=Medicament
-#HIST=Histogramme
+HIST=Histogramme
 MAIN=main
-projet: PHARM MED #HIST
-	#g++ $(PHARM).o -o $(PHARM)
-	g++ $(PHARM).o $(MED).o -o $(MAIN)
-	#g++ $(PHARM).o $(MED).o $(HIST).o $(MAIN)
+projet: PHARM MED HIST
+	g++ Main.cpp Pharmacie.o Histogramme.o Medicament.o -o TestPharm
 
 PHARM:
 	g++ -c $(PHARM).cpp -o $(PHARM).o
@@ -13,5 +11,5 @@ PHARM:
 MED:
 	g++ -c $(MED).cpp -o $(MED).o
 
-#HIST:
-#	g++ -c $(HIST).cpp -o $(HIST).o
+HIST:
+	g++ -c $(HIST).cpp -o $(HIST).o

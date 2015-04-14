@@ -107,9 +107,5 @@ void Pharmacie::recherche(string choix)
 }
 
 //void Pharmacie::rechercheAnalogue(Medicament choix)
-int main()
-{
 
-	Pharmacie p ("./ListeMedicaments.txt");
-	p.recherche("diplopie");
-}
+
