@@ -8,7 +8,6 @@ using namespace std;
 
 Histogramme::Histogramme(){
   freq;
-  cout<<"Constructeur Histogramme à vide"<<endl;
 }
 void Histogramme::calculHist(Pharmacie& pharma){
   map<string, vector<string> > meds = pharma.meds;

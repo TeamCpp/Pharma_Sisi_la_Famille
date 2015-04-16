@@ -20,11 +20,14 @@ public:
   Pharmacie(string);
   void parsePharma(ifstream&); // parse le fichier d'entrée
   void parseMed(string, Medicament&); // parse un médicament
-  vector<string> recherche();
+  void recherche();
   void recherche_avancee();
   void ajouter();
   void supprimer();
-  vector<string> saisie_verite_terrain();
+  map<string, vector<string> > saisie_param();
+  double rappel(vector<string>&, map<string, vector<string> >&);
+  double precision(vector<string>&, map<string, vector<string> >&);
+  void afficher();
 };
 
 #endif

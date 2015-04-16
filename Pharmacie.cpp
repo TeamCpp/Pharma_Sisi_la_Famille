@@ -76,10 +76,12 @@ void Pharmacie::parseMed(string s, Medicament& med_tmp){
     med_tmp=m_tmp;
   }
 }
-vector<string> Pharmacie::recherche()
+void Pharmacie::recherche()
 {
+  std::cout<<"=========================Recherche========================="<< endl;
   std::cout<<"Entrez un symptome"<<std::endl;
   string choix;
+  vector<string> resultat;
   std::cin>>choix;
   std::cout<<"Les médicaments pouvant provoquer ce symptomes sont:"<<std::endl;
   map<string, vector<string> >::iterator effetsI;
@@ -91,17 +93,24 @@ vector<string> Pharmacie::recherche()
 	{
 	  if ((*parcoursListe).find(choix)!=std::string::npos)
 	    {
-	      std::cout<<(*effetsI).first<<std::endl;
+	      cout<<(*effetsI).first<<std::endl;
+	      resultat.push_back((*effetsI).first);
 	    }
 	}
     }
+  std::cout<<"=========================Mesures de performance========================="<< endl;
+  std::cout<<"Paramètrage : "<<std::endl;
+  map<string, vector <string> > param = saisie_param();
+  cout << "Rappel = " << rappel(resultat, param) << endl;
+  cout << "Precision = " << precision(resultat, param) << endl;
 }
 void Pharmacie::recherche_avancee(){
+  std::cout<<"=========================Recherche========================="<< endl;
   Medicament comparaison;
   string input;
+  vector<string> resultat;
   std::cout<<"Veuillez entrer un médicament en respectant la contrainte: \nNom_medicament :effets indésirables notoires : liste_des effets secondaires."<<std::endl;
   std::cin>>input;
-  cout<<"J'ai lu "<<input<<endl;
   getline(std::cin,input,'\n');
   input=input+'\n';
   int nombre=0;
@@ -111,36 +120,41 @@ void Pharmacie::recherche_avancee(){
   vector <string> listeInput=comparaison.effets();
   std::cout<<listeInput[0]<<std::endl;
   map<string, vector<string> >::iterator effetsI;
-  for (effetsI=meds.begin(); effetsI != meds.end();effetsI++)  //Parcours de la map
-    {
-      vector <string> liste=(*effetsI).second;
-      vector <string>::iterator parcoursListe;
-      int nombre_tmp=nombre;
-      for (parcoursListe=liste.begin(); parcoursListe != liste.end();++parcoursListe)//Parcours des effets d'un médicament de la map
-	{
-	  vector <string>::iterator parcoursListeInput;
-	  for (parcoursListeInput=listeInput.begin(); parcoursListeInput!=listeInput.end();parcoursListeInput++)
-	    {
-	      string choix=*parcoursListeInput;
-	      if ((*parcoursListe).find(choix)!=std::string::npos)
-		{
-		  nombre_tmp--;
-		  if (nombre_tmp<=0)
-		    {std::cout<<(*effetsI).first<<std::endl;
-		      break;
-		    }
-		}
-	      
-	    }
+  for (effetsI=meds.begin(); effetsI != meds.end();effetsI++){  //Parcours de la map
+    vector <string> liste=(*effetsI).second;
+    vector <string>::iterator parcoursListe;
+    int nombre_tmp=nombre;
+    for (parcoursListe=liste.begin(); parcoursListe != liste.end();++parcoursListe){//Parcours des effets d'un médicament de la map
+      vector <string>::iterator parcoursListeInput;
+      for (parcoursListeInput=listeInput.begin(); parcoursListeInput!=listeInput.end();parcoursListeInput++){
+	string choix=*parcoursListeInput;
+	if ((*parcoursListe).find(choix)!=std::string::npos){
+	  nombre_tmp--;
+	  if (nombre_tmp<=0){
+	    std::cout<<(*effetsI).first<<std::endl;
+	    resultat.push_back((*effetsI).first);
+	    break;
+	  }
 	}
+      }
     }
+  }
+  std::cout<<"=========================Mesures de performance========================="<< endl;
+  std::cout<<"Paramètrage : "<<std::endl;
+  map<string, vector<string> > param = saisie_param();
+  cout << "Rappel = " << rappel(resultat, param) << endl;
+  cout << "Precision = " << precision(resultat, param) << endl;
+
 }
+/////////////////////////////Ajout-Suppression///////////////////////////////
 void Pharmacie::ajouter(){
   Medicament ajout;
   string input;
   std::cout<<"Veuillez entrer un médicament en respectant la contrainte: \nNom_medicament : effets indésirables notoires : liste_de_medicaments."<<std::endl;
   std::cin>>input;
+  string tmp_input = input;
   getline(std::cin,input,'\n');
+  input = tmp_input + input + '\n';
   std::cout<<input<<endl;
   parseMed(input,ajout);
   meds[ajout.nom()]=ajout.effets();
@@ -158,13 +172,91 @@ void Pharmacie::supprimer(){
       std::cout<<"Element "<< aSupprimer <<" introuvable"<<std::endl;
     }
 }
+
+////////////////Mesures de performance///////////////////////
+map<string, vector<string> > Pharmacie::saisie_param(){
+  map<string, vector<string> > param;
+  string elem_gt;
+  param["TP"];
+  param["FP"];
+  param["TN"];
+  param["FN"];
+  cout << "Entrez les Vrais Positifs(Q pour terminer)"<< endl;
+  while(true){
+    cin >> elem_gt;
+    if (elem_gt == "Q" || elem_gt == "q"){
+      break;
+    }
+    else{
+      param["TP"].push_back(elem_gt);
+    }
+  }
+  cout << "Entrez les Faux Positifs(Q pour terminer)"<< endl;
+  while(true){
+    cin >> elem_gt;
+    if (elem_gt == "Q" || elem_gt == "q"){
+      break;
+    }
+    else{
+      param["FP"].push_back(elem_gt);
+    }
+  }
+  cout << "Entrez les Vrais Négatifs(Q pour terminer)"<< endl;
+  while(true){
+    cin >> elem_gt;
+    if (elem_gt == "Q" || elem_gt == "q"){
+      break;
+    }
+    else{
+      param["TN"].push_back(elem_gt);
+    }
+  }
+  cout << "Entrez les Faux Négatifs(Q pour terminer)"<< endl;
+  while(true){
+    cin >> elem_gt;
+    if (elem_gt == "Q" || elem_gt == "q"){
+      break;
+    }
+    else{
+      param["FN"].push_back(elem_gt);
+    }
+  }
+  return param;
+}
+double Pharmacie::rappel(vector<string>& resultat_requete, map<string, vector <string> >& param){
+  double true_pos = resultat_requete.size();
+  double ground_truth = param["TP"].size() + param["FN"].size();
+  double rappel = true_pos/ground_truth;
+  return rappel;
+}
+double Pharmacie::precision(vector<string>& resultat_requete, map<string, vector <string> >& param){
+  double true_pos = resultat_requete.size();
+  double ground_truth = param["TP"].size() + param["FP"].size();
+  double precision = true_pos/ground_truth;
+  return precision;
+}
+void Pharmacie::afficher(){
+  map<string, vector<string> >::iterator effetsI;
+  std::cout<<"==============================Liste de Medicaments=============================";
+  for (effetsI=meds.begin(); effetsI != meds.end();effetsI++){//Parcours de la map
+    vector <string> liste=(*effetsI).second;
+    vector <string>::iterator parcoursListe;
+    std::cout<<(*effetsI).first<<": ";
+    for (parcoursListe=liste.begin(); parcoursListe != liste.end();++parcoursListe){//Parcours des effets d'un médicament de la map
+      std::cout<<(*parcoursListe)<< " ";
+    }
+    std::cout<<std::endl;
+  }
+}
+/*
+////////////////////////////GroundTruth////////////////////////////////
 vector<string> Pharmacie::saisie_verite_terrain(){
   vector<string> ground_truth;
   string elem_gt;
   cout << "Entrez les éléments de vérité terrain (Q pour quitter)"<< endl;
   while(true){
     cin >> elem_gt;
-    if (elem_gt == "Q"){
+    if (elem_gt == "Q" || elem_gt == "q"){
       break;
     }
     else{
@@ -172,11 +264,5 @@ vector<string> Pharmacie::saisie_verite_terrain(){
     }
   }
   return ground_truth;
-}
-/*
-int Pharmacie::rappel(vector<string>resultat_requete, vector<string>verite_terrain){
-  
-}
-int Pharmacie::precision(){
 }
 */
