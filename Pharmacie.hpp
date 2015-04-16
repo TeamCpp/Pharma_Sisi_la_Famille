@@ -19,9 +19,12 @@ private:
 public:
   Pharmacie(string);
   void parsePharma(ifstream&); // parse le fichier d'entrée
-  void parseMed(string); // parse un médicament
-  void recherche();
-  void recherche_avancee(string, vector<string>);
+  void parseMed(string, Medicament&); // parse un médicament
+  vector<string> recherche();
+  void recherche_avancee();
+  void ajouter();
+  void supprimer();
+  vector<string> saisie_verite_terrain();
 };
 
 #endif

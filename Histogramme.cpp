@@ -32,9 +32,14 @@ void Histogramme::affichageHist(){
     cout << "|";
     int i (0);
     while (i <= (*im).second){
-      cout << "O";
+      cout << "X";
       i++;
     }
-    cout << (*im).first << endl;
+    int espaces = 25 - i;
+    while (espaces > 0){
+      cout << ".";
+      espaces = espaces - 1;
+    }
+    cout << (*im).first << "(" << i << ")" << endl;
   }
 }
