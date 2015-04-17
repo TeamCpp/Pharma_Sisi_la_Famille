@@ -24,11 +24,19 @@ void Pharmacie::parsePharma(ifstream& in){
     s = '\0';
     getline(in,s,'\n');//récupère la ligne jusqu'à \n
     parseMed(s,m);
+    //Ajout du médicament et de sa liste d'effets à la pharmacie.
     meds[m.nom()]=m.effets();
   }
 }
 void Pharmacie::parseMed(string s, Medicament& med_tmp){
   if (s.length()>0){
+    size_t double_espace=s.find("  ");
+    if (double_espace!=string::npos)
+      {
+	//Suppression de double espace
+    s=s.replace(double_espace, string("  ").length()," ");
+      }
+    //Suppression de point
     s=s.replace(s.end()-2, s.end()-1,"");
     size_t z = s.find(':');
     size_t t = 0;
@@ -40,8 +48,7 @@ void Pharmacie::parseMed(string s, Medicament& med_tmp){
     while(i < s.length()){ // boucle jusqu'à la fin de la ligne
       t = s.find(",", i);
       size_t t_tmp = 0;
-      //if (t==-1)
-      //{
+
       string pattern=", et ";
       t_tmp=s.find(pattern,i);
       if (t==-1)
@@ -51,8 +58,6 @@ void Pharmacie::parseMed(string s, Medicament& med_tmp){
       if (t==-1 && premier_mot==0)
 	{i=i-2;
 	}
-      //std::replace( s.begin(), s.end(), "  ", " ");
-      //}
       if( t >= s.length()){ // pas de virgule trouvée, on en est donc au dernier effet secondaire
 	effects.push_back(s.substr(i+2,s.length()-i-3));
 	break;
@@ -65,19 +70,13 @@ void Pharmacie::parseMed(string s, Medicament& med_tmp){
       }
       premier_mot=1;
     }
-    //Affichage du vecteur
-    /*vector<string>::iterator effetsI;
-      for (effetsI=effects.begin(); effetsI != effects.end();effetsI++)
-      {
-      std::cout<<*effetsI<<std::endl;
-      //std::cout<<(*effetsI).length()<<std::endl;
-      }*/
     Medicament m_tmp(name,effects);
     med_tmp=m_tmp;
   }
 }
 void Pharmacie::recherche()
 {
+  //Parcours de la liste des effets de chaque médicament
   std::cout<<"=========================Recherche========================="<< endl;
   std::cout<<"Entrez un symptome"<<std::endl;
   string choix;
@@ -155,8 +154,9 @@ void Pharmacie::ajouter(){
   string tmp_input = input;
   getline(std::cin,input,'\n');
   input = tmp_input + input + '\n';
-  std::cout<<input<<endl;
   parseMed(input,ajout);
+  std::cout<<"Ajout de "<<ajout.nom()<<endl;
+
   meds[ajout.nom()]=ajout.effets();
 }
 void Pharmacie::supprimer(){
@@ -237,7 +237,7 @@ double Pharmacie::precision(vector<string>& resultat_requete, map<string, vector
 }
 void Pharmacie::afficher(){
   map<string, vector<string> >::iterator effetsI;
-  std::cout<<"==============================Liste de Medicaments=============================";
+  std::cout<<"==============================Liste de Medicaments=============================" << endl;
   for (effetsI=meds.begin(); effetsI != meds.end();effetsI++){//Parcours de la map
     vector <string> liste=(*effetsI).second;
     vector <string>::iterator parcoursListe;
