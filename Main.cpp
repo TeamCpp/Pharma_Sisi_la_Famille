@@ -31,7 +31,6 @@ int main()
 	  p.recherche_avancee();
 	  break;
 	case 5:
-	  hist.freq.clear();
 	  hist.calculHist(p);
 	  hist.affichageHist();
 	  break;
