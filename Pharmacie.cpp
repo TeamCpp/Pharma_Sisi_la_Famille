@@ -103,6 +103,7 @@ void Pharmacie::recherche()
   map<string, vector <string> > param = saisie_param();
   cout << "Rappel = " << rappel(resultat, param) << endl;
   cout << "Precision = " << precision(resultat, param) << endl;
+  passer_affichage();
 }
 void Pharmacie::recherche_avancee(){
   std::cout<<"=========================Recherche========================="<< endl;
@@ -144,7 +145,7 @@ void Pharmacie::recherche_avancee(){
   map<string, vector<string> > param = saisie_param();
   cout << "Rappel = " << rappel(resultat, param) << endl;
   cout << "Precision = " << precision(resultat, param) << endl;
-
+  passer_affichage();
 }
 /////////////////////////////Ajout-Suppression///////////////////////////////
 void Pharmacie::ajouter(){
@@ -167,10 +168,9 @@ void Pharmacie::supprimer(){
   if (meds.erase(aSupprimer)!=0){
     std::cout<<"Element "<< aSupprimer <<" supprimé"<<std::endl;
   }
-  else
-    {
-      std::cout<<"Element "<< aSupprimer <<" introuvable"<<std::endl;
-    }
+  else{
+    std::cout<<"Element "<< aSupprimer <<" introuvable"<<std::endl;
+  }
 }
 
 ////////////////Mesures de performance///////////////////////
@@ -235,6 +235,7 @@ double Pharmacie::precision(vector<string>& resultat_requete, map<string, vector
   double precision = true_pos/ground_truth;
   return precision;
 }
+///////////////////////Affichage/////////////////////////////
 void Pharmacie::afficher(){
   map<string, vector<string> >::iterator effetsI;
   std::cout<<"==============================Liste de Medicaments=============================";
@@ -246,6 +247,14 @@ void Pharmacie::afficher(){
       std::cout<<(*parcoursListe)<< " ";
     }
     std::cout<<std::endl;
+  }
+  passer_affichage();
+}
+void Pharmacie::passer_affichage(){
+  cout << "\E[30;1mAppuyez sur 'c' pour continuer\E[m" << endl;
+  string passer;
+  while (passer != "c"){
+    cin >> passer;
   }
 }
 /*

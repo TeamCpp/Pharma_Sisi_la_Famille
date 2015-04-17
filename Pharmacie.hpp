@@ -28,6 +28,7 @@ public:
   double rappel(vector<string>&, map<string, vector<string> >&);
   double precision(vector<string>&, map<string, vector<string> >&);
   void afficher();
+  void passer_affichage();
 };
 
 #endif
