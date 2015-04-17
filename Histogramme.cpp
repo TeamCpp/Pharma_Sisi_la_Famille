@@ -11,6 +11,7 @@ Histogramme::Histogramme(){
 }
 void Histogramme::calculHist(Pharmacie& pharma){
   map<string, vector<string> > meds = pharma.meds;
+  freq.clear();
   map<string, vector<string> >::iterator im;
   for (im = meds.begin(); im != meds.end(); im++){
     vector<string> effets = (*im).second;
